@@ -1,0 +1,4 @@
+name: BungeeTools
+main: de.fr3qu3ncy.easytools.bungee.BungeeTools
+version: ${project.version}
+author: fr3qu3ncy
