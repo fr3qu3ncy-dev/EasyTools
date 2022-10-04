@@ -1,33 +1,16 @@
 package de.fr3qu3ncy.easytools.core.sql;
 
-import lombok.RequiredArgsConstructor;
-
 import java.sql.*;
 
-@RequiredArgsConstructor
-public class SQLCore {
+public final class SQLCore {
 
-    private final String host;
-    private final int port;
-    private final String database;
-    private final String user;
-    private final String password;
+    private SQLCore() {}
 
-    private Connection connection;
-
-    public SQLCore(String host, String database, String user, String password) {
-        this(host, 3306, database, user, password);
+    public static void createTable(Connection connection, SQLTable table) {
+        update(connection, "CREATE TABLE IF NOT EXISTS " + table.format());
     }
 
-    public void connect() throws SQLException {
-        this.connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
-    }
-
-    public void createTable(SQLTable table) {
-        update("CREATE TABLE IF NOT EXISTS " + table.format());
-    }
-
-    public void update(String sql) {
+    public static void update(Connection connection, String sql) {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.execute();
         } catch (SQLException ex) {
@@ -35,18 +18,12 @@ public class SQLCore {
         }
     }
 
-    public ResultSet query(String sql) {
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            return statement.executeQuery();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+    public static <T> T queryObject(Connection connection, String sql, Class<T> className, String columnName) {
+        try (PreparedStatement statement = connection.prepareStatement(sql) ; ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+                return rs.getObject(columnName, className);
+            }
             return null;
-        }
-    }
-
-    public <T> T queryObject(String sql, Class<T> className, String columnName) {
-        try (ResultSet rs = query(sql)) {
-            return rs == null ? null : rs.getObject(columnName, className);
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;

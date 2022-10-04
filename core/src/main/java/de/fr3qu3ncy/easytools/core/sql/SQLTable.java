@@ -19,6 +19,7 @@ public final class SQLTable {
     public String format() {
         StringBuilder formatted = new StringBuilder(name + " (");
         columns.forEach(dataType -> formatted.append(dataType.format()));
+        formatted.append(")");
         return formatted.toString();
     }
 }
