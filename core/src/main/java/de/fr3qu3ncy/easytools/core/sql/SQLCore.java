@@ -1,4 +1,4 @@
-package de.fr3qu3ncy.easytools.core;
+package de.fr3qu3ncy.easytools.core.sql;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,12 +19,8 @@ public class SQLCore {
         this(host, 3306, database, user, password);
     }
 
-    public void connect() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password)) {
-            this.connection = con;
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    public void connect() throws SQLException {
+        this.connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, user, password);
     }
 
     public void createTable(SQLTable table) {

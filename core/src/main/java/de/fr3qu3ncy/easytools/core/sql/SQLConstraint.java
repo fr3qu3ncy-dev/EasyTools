@@ -1,4 +1,4 @@
-package de.fr3qu3ncy.easytools.core;
+package de.fr3qu3ncy.easytools.core.sql;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
