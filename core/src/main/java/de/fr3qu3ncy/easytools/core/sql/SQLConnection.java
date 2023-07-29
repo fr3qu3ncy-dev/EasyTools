@@ -2,11 +2,16 @@ package de.fr3qu3ncy.easytools.core.sql;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import de.fr3qu3ncy.easyconfig.core.registry.ConfigRegistry;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class SQLConnection {
+
+    static {
+        ConfigRegistry.register(SQLCredentials.class);
+    }
 
     private final String host;
     private final int port;
@@ -30,8 +35,14 @@ public class SQLConnection {
         this(host, 3306, database, user, password);
     }
 
+    public SQLConnection(SQLCredentials credentials) {
+        this(credentials.getHost(), credentials.getPort(), credentials.getDatabase(),
+            credentials.getUser(), credentials.getPassword());
+    }
+
     private void setup() {
         HikariConfig config = new HikariConfig();
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
         config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database);
         config.setUsername(user);
         config.setPassword(password);

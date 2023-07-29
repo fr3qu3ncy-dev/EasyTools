@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>easytools-core</artifactId>
+    <artifactId>easytools-velocity</artifactId>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
@@ -18,24 +18,28 @@
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>
         <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-            <version>5.0.1</version>
+            <groupId>de.fr3qu3ncy</groupId>
+            <artifactId>easytools-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>co.aikar</groupId>
+            <artifactId>acf-velocity</artifactId>
+            <version>0.5.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>de.fr3qu3ncy</groupId>
-            <artifactId>easyconfig-core</artifactId>
+            <artifactId>easyconfig-velocity</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
